@@ -21,15 +21,23 @@ io.on('connection', function(socket){
     });
     socket.on('cut',function (msg) {
         atem.cutTransition();
+        console.log('cut');
     });
     socket.on('auto',function (msg) {
         atem.autoTransition();
+        console.log('auto');
     });
     socket.on('changePreview',function (msg) {
         atem.changePreviewInput(msg);
+        console.log("Changed Preview to: " + msg);
     });
     socket.on('changeProgram',function (msg) {
         atem.changeProgramInput(msg);
+        console.log("Changed Program to: " + msg);
+    });
+    socket.on('ftb',function (msg) {
+        atem.fadeToBlack();
+        console.log("fade to black");
     });
 });
 
