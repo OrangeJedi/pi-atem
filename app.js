@@ -28,6 +28,9 @@ io.on('connection', function(socket){
     socket.on('changePreview',function (msg) {
         atem.changePreviewInput(msg);
     });
+    socket.on('changeProgram',function (msg) {
+        atem.changeProgramInput(msg);
+    });
 });
 
 //ATEM listeners
