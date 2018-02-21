@@ -59,19 +59,47 @@ function update() {
         socket.emit('changePreview', preBuss[q][r]);
     }
     if(buttonPressed(gpL["a"])){
-        if(buttonDown(gpL["back"])){
+        if(buttonDown(gp.buttons[gpL["back"]])){
             socket.emit('ds1A');
         }else {
             socket.emit('ds1');
         }
     }
     if(buttonPressed(gpL["b"])){
-        if(buttonDown(gpL["back"])){
+        if(buttonDown(gp.buttons[gpL["back"]])){
             socket.emit('ds2A');
         }else {
             socket.emit('ds2');
         }
     }
+
+    //axis
+    if(axisRange(0,.8,true)){
+        socket.emit('changePreview',4);
+    }
+    if(axisRange(0,-.8,false)){
+        socket.emit('changePreview',3);
+    }
+    if(axisRange(1,.8,true)){
+        socket.emit('changePreview',2);
+    }
+    if(axisRange(1,-.8,false)){
+        socket.emit('changePreview',1);
+    }
+    if(axisRange(2,.8,true)){
+        socket.emit('changePreview',3020);
+    }
+    if(axisRange(2,-.8,false)){
+        socket.emit('changePreview',3010);
+    }
+    if(axisRange(3,.8,true)){
+        socket.emit('changePreview',5);
+    }
+    if(axisRange(3,-.8,false)){
+        socket.emit('changePreview',6);
+    }
+
+    //oldGp setup
     for (var i = 0; i < gp.buttons.length; i++) {
         oldGp.buttons[i] = {"pressed": gp.buttons[i].pressed};
     }
@@ -95,7 +123,14 @@ function buttonDown(b) {
 function buttonPressed(b) {
     return !buttonDown(oldGp.buttons[b]) && buttonDown(gp.buttons[b]);
 }
+function axisRange(number,value,gl){
+    if(gl){
+        return !(oldGp.axes[number] > value) && (gp.axes[number] > value);
+    }else{
+        return !(oldGp.axes[number] < value) && (gp.axes[number] < value);
+    }
 
+}
 function setGpLayout() {
     if (gp.buttons.length === 23) {
         gpL = {

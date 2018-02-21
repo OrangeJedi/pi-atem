@@ -21,19 +21,19 @@ io.on('connection', function(socket){
     });
     socket.on('cut',function (msg) {
         atem.cutTransition();
-        console.log('cut');
+        console.log("cut");
     });
     socket.on('auto',function (msg) {
         atem.autoTransition();
-        console.log('auto');
+        console.log("auto");
     });
     socket.on('changePreview',function (msg) {
         atem.changePreviewInput(msg);
-        console.log("Changed Preview to: " + msg);
+        console.log("Preview chaged to: " + msg);
     });
     socket.on('changeProgram',function (msg) {
         atem.changeProgramInput(msg);
-        console.log("Changed Program to: " + msg);
+        console.log("Program changed to: " + msg);
     });
     socket.on('ftb',function (msg) {
         atem.fadeToBlack();
@@ -45,6 +45,7 @@ io.on('connection', function(socket){
         }else{
             atem.changeDownstreamKeyOn(1,true);
         }
+        console.log("ds1");
     });
     socket.on('ds2',function(msg){
         if(atem.state.video.downstreamKeyOn[0]){
@@ -52,6 +53,7 @@ io.on('connection', function(socket){
         }else{
             atem.changeDownstreamKeyOn(2,true);
         }
+        console.log("ds2");
     });
     socket.on('ds1T',function(msg){
         if(atem.state.video.downstreamKeyOn[0]){
@@ -59,6 +61,7 @@ io.on('connection', function(socket){
         }else{
             atem.changeDownstreamKeyTie(1,true);
         }
+        console.log("ds1T");
     });
     socket.on('ds2T',function(msg){
         if(atem.state.video.downstreamKeyOn[0]){
@@ -66,6 +69,7 @@ io.on('connection', function(socket){
         }else{
             atem.changeDownstreamKeyTie(2,true);
         }
+        console.log("ds2T");
     });
     socket.on('ds1A',function(msg){
         if(atem.state.video.downstreamKeyOn[0]){
@@ -73,6 +77,7 @@ io.on('connection', function(socket){
         }else{
             atem.autoDownstreamKey(1,true);
         }
+        console.log("ds1A");
     });
     socket.on('ds2A',function(msg){
         if(atem.state.video.downstreamKeyOn[0]){
@@ -80,16 +85,16 @@ io.on('connection', function(socket){
         }else{
             atem.autoDownstreamKey(2,true);
         }
+        console.log("ds2A");
     });
 });
-
 //ATEM listeners
 atem.on('connect', function() {
     console.log('ATEM connected');
 });
 
 atem.on('stateChanged', function(err, state) {
-    console.log(state);
+    //console.log(state);
     io.emit('stateChange', state);
 });
 
