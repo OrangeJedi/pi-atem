@@ -1,4 +1,5 @@
 var gp, oldGp, gpL;
+var bus;
 var preBuss = [[1, 2, 3, 4], [6, 5, 3010, 3020]], q = 0, r = 0;
 var socket = io();
 window.addEventListener("gamepadconnected", function (e) {
@@ -74,29 +75,34 @@ function update() {
     }
 
     //axis
+    if(buttonDown(gp.buttons[gpL["rightBumper"]])){
+        bus = "changeProgram";
+    }else{
+        bus = "changePreview";
+    }
     if(axisRange(0,.8,true)){
-        socket.emit('changePreview',4);
+        socket.emit(bus,4);
     }
     if(axisRange(0,-.8,false)){
-        socket.emit('changePreview',3);
+        socket.emit(bus,3);
     }
     if(axisRange(1,.8,true)){
-        socket.emit('changePreview',2);
+        socket.emit(bus,2);
     }
     if(axisRange(1,-.8,false)){
-        socket.emit('changePreview',1);
+        socket.emit(bus,1);
     }
     if(axisRange(2,.8,true)){
-        socket.emit('changePreview',3020);
+        socket.emit(bus,3020);
     }
     if(axisRange(2,-.8,false)){
-        socket.emit('changePreview',3010);
+        socket.emit(bus,3010);
     }
     if(axisRange(3,.8,true)){
-        socket.emit('changePreview',5);
+        socket.emit(bus,5);
     }
     if(axisRange(3,-.8,false)){
-        socket.emit('changePreview',6);
+        socket.emit(bus,6);
     }
 
     //oldGp setup
