@@ -39,6 +39,48 @@ io.on('connection', function(socket){
         atem.fadeToBlack();
         console.log("fade to black");
     });
+    socket.on('ds1',function(msg){
+        if(atem.state.video.downstreamKeyOn[0]){
+            atem.changeDownstreamKeyOn(1,false);
+        }else{
+            atem.changeDownstreamKeyOn(1,true);
+        }
+    });
+    socket.on('ds2',function(msg){
+        if(atem.state.video.downstreamKeyOn[0]){
+            atem.changeDownstreamKeyOn(2,false);
+        }else{
+            atem.changeDownstreamKeyOn(2,true);
+        }
+    });
+    socket.on('ds1T',function(msg){
+        if(atem.state.video.downstreamKeyOn[0]){
+            atem.changeDownstreamKeyTie(1,false);
+        }else{
+            atem.changeDownstreamKeyTie(1,true);
+        }
+    });
+    socket.on('ds2T',function(msg){
+        if(atem.state.video.downstreamKeyOn[0]){
+            atem.changeDownstreamKeyTie(2,false);
+        }else{
+            atem.changeDownstreamKeyTie(2,true);
+        }
+    });
+    socket.on('ds1A',function(msg){
+        if(atem.state.video.downstreamKeyOn[0]){
+            atem.autoDownstreamKey(1,false);
+        }else{
+            atem.autoDownstreamKey(1,true);
+        }
+    });
+    socket.on('ds2A',function(msg){
+        if(atem.state.video.downstreamKeyOn[0]){
+            atem.autoDownstreamKey(2,false);
+        }else{
+            atem.autoDownstreamKey(2,true);
+        }
+    });
 });
 
 //ATEM listeners
