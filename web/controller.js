@@ -26,83 +26,133 @@ function update() {
     if (!gp) {
         return;
     }
-    if (buttonPressed(gpL["x"])) { //2
-        socket.emit('ftb');
-    }
-    if (buttonPressed(gpL["rightTrigger"])) { //7
+
+    if (buttonPressed(gpL["rightTrigger"])) {
         socket.emit('cut');
     }
-    if (buttonPressed(gpL["leftTrigger"])) { //6
+    if (buttonPressed(gpL["leftTrigger"])) {
         socket.emit('auto');
     }
-    if (buttonPressed(gpL["up"])) { //12
+    if (buttonPressed(gpL["up"])) {
         if (q > 0) {
             q--;
         }
         socket.emit('changePreview', preBuss[q][r]);
     }
-    if (buttonPressed(gpL["down"])) { //13
+    if (buttonPressed(gpL["down"])) {
         if (q < 1) {
             q++;
         }
         socket.emit('changePreview', preBuss[q][r]);
     }
-    if (buttonPressed(gpL["left"])) { //14
+    if (buttonPressed(gpL["left"])) {
         if (r > 0) {
             r--;
         }
         socket.emit('changePreview', preBuss[q][r]);
     }
-    if (buttonPressed(gpL["right"])) { //15
+    if (buttonPressed(gpL["right"])) {
         if (r < 3) {
             r++;
         }
         socket.emit('changePreview', preBuss[q][r]);
     }
-    if(buttonPressed(gpL["a"])){
-        if(buttonDown(gp.buttons[gpL["back"]])){
-            socket.emit('ds1A');
-        }else {
-            socket.emit('ds1');
+    if (buttonDown(gp.buttons[gpL["back"]])) {
+        if (buttonPressed(gpL["x"])) {
+            socket.emit('ds1T');
         }
-    }
-    if(buttonPressed(gpL["b"])){
-        if(buttonDown(gp.buttons[gpL["back"]])){
+        if (buttonPressed(gpL["y"])) {
+            socket.emit('ds2T');
+        }
+        if (buttonPressed(gpL["b"])) {
             socket.emit('ds2A');
-        }else {
+        }
+        if (buttonPressed(gpL["a"])) {
+            socket.emit('ds1A');
+        }
+    } else if (buttonDown(gp.buttons[gpL["menu"]])){
+        if (buttonPressed(gpL["x"])) {
+
+        }
+        if (buttonPressed(gpL["y"])) {
+
+        }
+        if (buttonPressed(gpL["b"])) {
+
+        }
+        if (buttonPressed(gpL["a"])) {
+
+        }
+    } else {
+        if (buttonPressed(gpL["x"])) {
+            socket.emit('ftb');
+        }
+        if (buttonPressed(gpL["y"])) {
+        }
+        if (buttonPressed(gpL["b"])) {
             socket.emit('ds2');
+        }
+        if (buttonPressed(gpL["a"])) {
+            socket.emit('ds1');
         }
     }
 
     //axis
-    if(buttonDown(gp.buttons[gpL["rightBumper"]])){
+    if (buttonDown(gp.buttons[gpL["rightBumper"]])) {
         bus = "changeProgram";
-    }else{
+    } else {
         bus = "changePreview";
     }
-    if(axisRange(0,.8,true)){
-        socket.emit(bus,4);
-    }
-    if(axisRange(0,-.8,false)){
-        socket.emit(bus,3);
-    }
-    if(axisRange(1,.8,true)){
-        socket.emit(bus,2);
-    }
-    if(axisRange(1,-.8,false)){
-        socket.emit(bus,1);
-    }
-    if(axisRange(2,.8,true)){
-        socket.emit(bus,3020);
-    }
-    if(axisRange(2,-.8,false)){
-        socket.emit(bus,3010);
-    }
-    if(axisRange(3,.8,true)){
-        socket.emit(bus,5);
-    }
-    if(axisRange(3,-.8,false)){
-        socket.emit(bus,6);
+    if (buttonDown(gp.buttons[gpL["leftBumper"]])) {
+        if (axisRange(0, .8, true)) {
+            socket.emit(bus, 2002);
+        }
+        if (axisRange(0, -.8, false)) {
+            socket.emit(bus, 2001);
+        }
+        if (axisRange(1, .8, true)) {
+            socket.emit(bus, 1000);
+        }
+        if (axisRange(1, -.8, false)) {
+            socket.emit(bus, 0);
+        }
+        if (axisRange(2, .8, true)) {
+            socket.emit(bus, 10);
+        }
+        if (axisRange(2, -.8, false)) {
+            socket.emit(bus, 9);
+        }
+        if (axisRange(3, .8, true)) {
+            socket.emit(bus, 8);
+        }
+        if (axisRange(3, -.8, false)) {
+            socket.emit(bus, 7);
+        }
+    } else {
+        if (axisRange(0, .8, true)) {
+            socket.emit(bus, 4);
+        }
+        if (axisRange(0, -.8, false)) {
+            socket.emit(bus, 3);
+        }
+        if (axisRange(1, .8, true)) {
+            socket.emit(bus, 2);
+        }
+        if (axisRange(1, -.8, false)) {
+            socket.emit(bus, 1);
+        }
+        if (axisRange(2, .8, true)) {
+            socket.emit(bus, 3020);
+        }
+        if (axisRange(2, -.8, false)) {
+            socket.emit(bus, 3010);
+        }
+        if (axisRange(3, .8, true)) {
+            socket.emit(bus, 5);
+        }
+        if (axisRange(3, -.8, false)) {
+            socket.emit(bus, 6);
+        }
     }
 
     //oldGp setup
@@ -129,14 +179,16 @@ function buttonDown(b) {
 function buttonPressed(b) {
     return !buttonDown(oldGp.buttons[b]) && buttonDown(gp.buttons[b]);
 }
-function axisRange(number,value,gl){
-    if(gl){
+
+function axisRange(number, value, gl) {
+    if (gl) {
         return !(oldGp.axes[number] > value) && (gp.axes[number] > value);
-    }else{
+    } else {
         return !(oldGp.axes[number] < value) && (gp.axes[number] < value);
     }
 
 }
+
 function setGpLayout() {
     if (gp.buttons.length === 23) {
         gpL = {
