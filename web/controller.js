@@ -166,7 +166,15 @@ function update() {
 }
 
 socket.on('stateChange', function (msg) {
-    //console.log(msg);
+    console.log(msg);
+    for(var i = 0;i < 2; i++){
+        for(var j = 0; j < 5; j++){
+            if(msg.video.ME[0].previewInput === preBuss[i][j]){
+                q = i;
+                r = j;
+            }
+        }
+    }
 });
 
 function buttonDown(b) {
