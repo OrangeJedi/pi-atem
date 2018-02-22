@@ -41,49 +41,49 @@ io.on('connection', function(socket){
     });
     socket.on('ds1',function(msg){
         if(atem.state.video.downstreamKeyOn[0]){
-            atem.changeDownstreamKeyOn(1,false);
+            atem.changeDownstreamKeyOn(0,false);
         }else{
-            atem.changeDownstreamKeyOn(1,true);
+            atem.changeDownstreamKeyOn(0,true);
         }
         console.log("ds1");
     });
     socket.on('ds2',function(msg){
-        if(atem.state.video.downstreamKeyOn[0]){
-            atem.changeDownstreamKeyOn(2,false);
+        if(atem.state.video.downstreamKeyTie[1]){
+            atem.changeDownstreamKeyOn(1,false);
         }else{
-            atem.changeDownstreamKeyOn(2,true);
+            atem.changeDownstreamKeyOn(1,true);
         }
         console.log("ds2");
     });
     socket.on('ds1T',function(msg){
-        if(atem.state.video.downstreamKeyOn[0]){
-            atem.changeDownstreamKeyTie(1,false);
+        if(atem.state.video.downstreamKeyTie[0]){
+            atem.changeDownstreamKeyTie(0,false);
         }else{
-            atem.changeDownstreamKeyTie(1,true);
+            atem.changeDownstreamKeyTie(0,true);
         }
         console.log("ds1T");
     });
     socket.on('ds2T',function(msg){
-        if(atem.state.video.downstreamKeyOn[0]){
-            atem.changeDownstreamKeyTie(2,false);
+        if(atem.state.video.downstreamKeyTie[1]){
+            atem.changeDownstreamKeyTie(1,false);
         }else{
-            atem.changeDownstreamKeyTie(2,true);
+            atem.changeDownstreamKeyTie(1,true);
         }
         console.log("ds2T");
     });
     socket.on('ds1A',function(msg){
         if(atem.state.video.downstreamKeyOn[0]){
-            atem.autoDownstreamKey(1,false);
+            atem.autoDownstreamKey(0,false);
         }else{
-            atem.autoDownstreamKey(1,true);
+            atem.autoDownstreamKey(0,true);
         }
         console.log("ds1A");
     });
     socket.on('ds2A',function(msg){
-        if(atem.state.video.downstreamKeyOn[0]){
-            atem.autoDownstreamKey(2,false);
+        if(atem.state.video.downstreamKeyOn[1]){
+            atem.autoDownstreamKey(1,false);
         }else{
-            atem.autoDownstreamKey(2,true);
+            atem.autoDownstreamKey(1,true);
         }
         console.log("ds2A");
     });
