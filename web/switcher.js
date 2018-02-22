@@ -11,8 +11,11 @@ socket.on('stateChange', function (msg) {
 
     txt = "<table><tr>";
     for(i = 0;i < 6; i++){
-        text += "<td class='previewButton' id='previewButton_" + i + "'>" + msg.channels[i].name + "</td>"
+        text += "<td class='previewButton' id='previewButton_" + i + "' onclick='setPreview(" + i + ")'>" + msg.channels[i].name + "</td>"
     }
     txt += "</tr></table>";
     $('#previewBus').html(txt);
 });
+function setPreview(channel){
+    socket.emit('changePreview',channel);
+}
