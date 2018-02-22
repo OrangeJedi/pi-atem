@@ -1,6 +1,6 @@
 {
   "name": "pi_atem",
-  "version": "0.0.1",
+  "version": "0.3.1",
   "description": "An application for controling a BlackMagic ATEM video switcher",
   "dependencies": {
     "applest-atem": "^0.2.4",
