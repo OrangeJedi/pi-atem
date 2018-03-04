@@ -5,6 +5,7 @@
   "dependencies": {
     "applest-atem": "^0.2.4",
     "express": "^4.16.2",
+    "hyperdeck-js-lib": "^1.4.0",
     "joystick": "^0.1.2",
     "socket.io": "^1.7.2"
   }

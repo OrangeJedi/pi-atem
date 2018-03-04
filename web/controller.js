@@ -70,19 +70,6 @@ function update() {
         if (buttonPressed(gpL["a"])) {
             socket.emit('ds1A');
         }
-    } else if (buttonDown(gp.buttons[gpL["menu"]])){
-        if (buttonPressed(gpL["x"])) {
-
-        }
-        if (buttonPressed(gpL["y"])) {
-
-        }
-        if (buttonPressed(gpL["b"])) {
-
-        }
-        if (buttonPressed(gpL["a"])) {
-
-        }
     } else {
         if (buttonPressed(gpL["x"])) {
             socket.emit('ftb');
@@ -95,6 +82,10 @@ function update() {
         if (buttonPressed(gpL["a"])) {
             socket.emit('ds1');
         }
+    }
+    //hyperdeck
+    if(buttonPressed(gpL["menu"])){
+        socket.emit('HDrecord');
     }
 
     //axis

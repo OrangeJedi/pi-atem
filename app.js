@@ -8,8 +8,33 @@ var io = require('socket.io')(http);
 var ATEM = require('applest-atem');
 var atem = new ATEM();
 atem.connect('192.168.10.240'); //connects to the ATEM - !!! Does you computer have an IPv4 address !!! - !! ATEM address; NOT hyperdeck or control panel !!
-//Global Variables
 
+//setup for hyperdeck
+var HyperdeckLib = require("hyperdeck-js-lib");
+
+var hyperdeck = new HyperdeckLib.Hyperdeck("192.168.10.239");
+hyperdeck.onConnected().then(function() {
+    // connected to hyperdeck
+    // Note: you do not have to wait for the connection before you start making requests.
+    // Requests are buffered until the connection completes. If the connection fails, any
+    // buffered requests will be rejected.
+    hyperdeck.makeRequest("device info").then(function(response) {
+        console.log("Got response with code "+response.code+".");
+        console.log("Hyperdeck unique id: "+response.params["unique id"]);
+    }).catch(function(errResponse) {
+        if (!errResponse) {
+            console.error("The request failed because the hyperdeck connection was lost.");
+        }
+        else {
+            console.error("The hyperdeck returned an error with status code "+errResponse.code+".");
+        }
+    });
+}).catch(function() {
+    console.error("Failed to connect to hyperdeck.");
+});
+
+//Global Variables
+var HDrec = false;
 
 app.use(express.static('web')); //hosts /web directory
 
@@ -19,6 +44,7 @@ io.on('connection', function(socket){
     socket.on('disconnect', function(){
         console.log('user disconnected');
     });
+    //ATEM sockets
     socket.on('cut',function (msg) {
         atem.cutTransition();
         console.log("cut");
@@ -84,6 +110,15 @@ io.on('connection', function(socket){
             atem.autoDownstreamKey(1,false);
         }else{
             atem.autoDownstreamKey(1,true);
+        }
+        console.log("ds2A");
+    });
+    //hyperdeck sockets
+    socket.on('HDrecord',function(msg){
+        if(HDrec){
+            hyperdeck.record();
+        }else{
+            hyperdeck.stop();
         }
         console.log("ds2A");
     });
