@@ -10,10 +10,20 @@
 <body>
     <h1>ATEM Switcher</h1>
     <div id="switcher">
+        <div id="upstreamBus"></div>
         <div id="programBus"></div>
         <div id="previewBus"></div>
+        <div id="cutKeys">
+            <table id="cutKeyTB" class="cutKeysTable">
+                <tr>
+                    <td class="kButton"><button id="auto" class="Button" onclick="auto()">AUTO</button></td>
+                    <td class="kButton"><button id="cut" class="Button" onclick="cut()">CUT</button></td>
+                    <td class="kButton"><button id="ftb" class="Button" onclick="ftb()">FTB</button></td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <a href="controller.html">X-Box Control Page</a>
 <script src="switcher.js"></script>
+<script src="controller.js"></script>
 </body>
 </html>

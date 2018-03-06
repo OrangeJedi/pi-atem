@@ -1,6 +1,40 @@
 #programBus{
-    background-color: gainsboro;
+    padding-bottom: 2%;
 }
 #previewBus{
-    background-color: gainsboro;
+}
+#upstreamBus{
+    padding-bottom: 6%;
+}
+.Button{
+    width: 100%;
+    height: 200px;
+    border: 1px black solid;
+    background-color: white;
+}
+.bus{
+    width: 75%;
+    background-color: darkgrey;
+}
+.TDbutton{
+    width: 9%;
+}
+.green{
+    background-color: green;
+}
+.red{
+    background-color: red;
+}
+.yellow{
+    background-color: yellow;
+}
+.cutKeysTable{
+    position: fixed;
+    left: 76%;
+    width: 20%;
+    top: 47.5%;
+    background-color: darkgrey;
+}
+.kButton{
+    width: 33%;
 }

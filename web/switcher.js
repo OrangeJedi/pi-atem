@@ -1,21 +1,45 @@
 var socket = io();
+var inputs = [1,2,3,4,5,6,3010,3020,6000,0,1000];
 socket.on('stateChange', function (msg) {
     console.log(msg);
-    //update names
-    var txt = "<table><tr>";
-    for(var i = 0;i < 6; i++){
-        text += "<td class='programButton' id='programButton_" + i + "'>" + msg.channels[i].name + "</td>"
-    }
-    txt += "</tr></table>";
-    $('#programBus').html(txt);
-
-    txt = "<table><tr>";
-    for(i = 0;i < 6; i++){
-        text += "<td class='previewButton' id='previewButton_" + i + "' onclick='setPreview(" + i + ")'>" + msg.channels[i].name + "</td>"
-    }
-    txt += "</tr></table>";
-    $('#previewBus').html(txt);
+    //update names    $('#previewBus').html(createButtons('preview',msg));
+    $('#upstreamBus').html(createButtons('upstream',msg));
+    $('#programBus').html(createButtons('program',msg));
+    $('#previewBus').html(createButtons('preview',msg));
+    setButtons();
+    color(msg);
 });
 function setPreview(channel){
     socket.emit('changePreview',channel);
+}
+function setProgram(channel){
+    socket.emit('changeProgram',channel);
+}
+function auto(){
+    socket.emit('auto');
+}
+function cut(){
+    socket.emit('cut');
+}
+function ftb(){
+    socket.emit('ftb');
+}
+function createButtons(busName,msg){
+    var b = busName[0].toUpperCase();
+    for(var i = 1;i < busName.length;i++){
+        b += busName[i];
+    }
+    var txt = "<table class='bus'><tr>";
+    for(i = 0; i < inputs.length;i++){
+        txt += "<td class='" + busName + "TD TDbutton' id='" + busName + "TD_" + inputs[i] + "'><button class='" + busName + "Button Button' id='" + busName + "Button_" + inputs[i] + "' onclick='set" + b + "(" + inputs[i] + ")'>" + msg.channels[inputs[i]].label + "</button></td>";
+    }
+    txt += "</tr></table>";
+    return txt;
+}
+function color(state){
+    $('#programButton_' + state.video.ME[0].programInput).addClass('red');
+    $('#previewButton_' + state.video.ME[0].previewInput).addClass('green');
+}
+function setButtons(){
+    $('table').find('button').css( "height", $('table.bus').find('button').width() );
 }

@@ -41,6 +41,7 @@ app.use(express.static('web')); //hosts /web directory
 //websockets
 io.on('connection', function(socket){
     console.log('a user connected');
+    io.emit('stateChange', atem.state);
     socket.on('disconnect', function(){
         console.log('user disconnected');
     });
@@ -113,6 +114,9 @@ io.on('connection', function(socket){
         }
         console.log("ds2A");
     });
+    socket.on('previewTrans',function(msg){
+       atem.prev
+    });
     //hyperdeck sockets
     socket.on('HDrecord',function(msg){
         if(HDrec){
@@ -120,7 +124,7 @@ io.on('connection', function(socket){
         }else{
             hyperdeck.stop();
         }
-        console.log("ds2A");
+        console.log("hyperdeck record");
     });
 });
 //ATEM listeners

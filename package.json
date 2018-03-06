@@ -1,12 +1,11 @@
 {
   "name": "pi_atem",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "An application for controling a BlackMagic ATEM video switcher",
   "dependencies": {
     "applest-atem": "^0.2.4",
     "express": "^4.16.2",
     "hyperdeck-js-lib": "^1.4.0",
-    "joystick": "^0.1.2",
     "socket.io": "^1.7.2"
   }
 }
