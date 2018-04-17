@@ -1,14 +1,23 @@
 var socket = io();
 var inputs = [1,2,3,4,5,6,3010,3020,6000,0,1000];
+var ME = 0;
+var ATEMstate;
 socket.on('stateChange', function (msg) {
     console.log(msg);
-    //update names    $('#previewBus').html(createButtons('preview',msg));
+    //update names
     $('#upstreamBus').html(createButtons('upstream',msg));
     $('#programBus').html(createButtons('program',msg));
     $('#previewBus').html(createButtons('preview',msg));
     setButtons();
     color(msg);
 });
+function resetButtons(state){
+    $('#upstreamBus').html(createButtons('upstream',state));
+    $('#programBus').html(createButtons('program',state));
+    $('#previewBus').html(createButtons('preview',state));
+    setButtons();
+    color(state);
+}
 function setPreview(channel){
     socket.emit('changePreview',channel);
 }
@@ -42,4 +51,10 @@ function color(state){
 }
 function setButtons(){
     $('table').find('button').css( "height", $('table.bus').find('button').width() );
+}
+function meChange(){
+    ME = $('#MEnum').val();
+    console.log(ME);
+    socket.emit('ME',ME);
+    resetButtons(ATEMstate);
 }

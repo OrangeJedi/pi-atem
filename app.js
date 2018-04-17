@@ -3,38 +3,12 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var me = 0;
 
 //setup for ATEM
 var ATEM = require('applest-atem');
 var atem = new ATEM();
 atem.connect('192.168.10.240'); //connects to the ATEM - !!! Does you computer have an IPv4 address !!! - !! ATEM address; NOT hyperdeck or control panel !!
-
-//setup for hyperdeck
-var HyperdeckLib = require("hyperdeck-js-lib");
-
-var hyperdeck = new HyperdeckLib.Hyperdeck("192.168.10.239");
-hyperdeck.onConnected().then(function() {
-    // connected to hyperdeck
-    // Note: you do not have to wait for the connection before you start making requests.
-    // Requests are buffered until the connection completes. If the connection fails, any
-    // buffered requests will be rejected.
-    hyperdeck.makeRequest("device info").then(function(response) {
-        console.log("Got response with code "+response.code+".");
-        console.log("Hyperdeck unique id: "+response.params["unique id"]);
-    }).catch(function(errResponse) {
-        if (!errResponse) {
-            console.error("The request failed because the hyperdeck connection was lost.");
-        }
-        else {
-            console.error("The hyperdeck returned an error with status code "+errResponse.code+".");
-        }
-    });
-}).catch(function() {
-    console.error("Failed to connect to hyperdeck.");
-});
-
-//Global Variables
-var HDrec = false;
 
 app.use(express.static('web')); //hosts /web directory
 
@@ -47,23 +21,23 @@ io.on('connection', function(socket){
     });
     //ATEM sockets
     socket.on('cut',function (msg) {
-        atem.cutTransition();
+        atem.cutTransition(me);
         console.log("cut");
     });
     socket.on('auto',function (msg) {
-        atem.autoTransition();
+        atem.autoTransition(me);
         console.log("auto");
     });
     socket.on('changePreview',function (msg) {
-        atem.changePreviewInput(msg);
+        atem.changePreviewInput(msg,me);
         console.log("Preview chaged to: " + msg);
     });
     socket.on('changeProgram',function (msg) {
-        atem.changeProgramInput(msg);
+        atem.changeProgramInput(msg,me);
         console.log("Program changed to: " + msg);
     });
     socket.on('ftb',function (msg) {
-        atem.fadeToBlack();
+        atem.fadeToBlack(me);
         console.log("fade to black");
     });
     socket.on('ds1',function(msg){
@@ -115,16 +89,20 @@ io.on('connection', function(socket){
         console.log("ds2A");
     });
     socket.on('previewTrans',function(msg){
-       atem.prev
-    });
-    //hyperdeck sockets
-    socket.on('HDrecord',function(msg){
-        if(HDrec){
-            hyperdeck.record();
+        if(atem.state.video.ME[me].transitionPreview){
+            atem.changeTransitionPreview(0,me)
         }else{
-            hyperdeck.stop();
+            atem.changeTransitionPreview(1,me);
         }
-        console.log("hyperdeck record");
+        console.log("Preview Transition");
+    });
+    socket.on('transType',function(msg){
+        atem.changeTransitionType(msg,me);
+        console.log("Preview Transition");
+    });
+    socket.on('ME',function(msg){
+        me = msg;
+        console.log("Set to: M/E " + (me + 1));
     });
 });
 //ATEM listeners
