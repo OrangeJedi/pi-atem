@@ -34,19 +34,19 @@ function setButtons(){
     $('table').find('button').css( "height", $('table.bus').find('button').width() );
 }
 function setPreview(channel){
-    socket.emit('changePreview',channel);
+    socket.emit('changePreview',{"channel":channel,"me":ME});
 }
 function setProgram(channel){
-    socket.emit('changeProgram',channel);
+    socket.emit('changeProgram',{"channel":channel,"me":ME});
 }
 function auto(){
-    socket.emit('auto');
+    socket.emit('auto',ME);
 }
 function cut(){
-    socket.emit('cut');
+    socket.emit('cut',ME);
 }
 function ftb(){
-    socket.emit('ftb');
+    socket.emit('ftb',ME);
 }
 function color(state){
     $('#programButton_' + state.video.ME[0].programInput).addClass('red');

@@ -3,7 +3,6 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var me = 0;
 
 //setup for ATEM
 var ATEM = require('applest-atem');
@@ -21,23 +20,23 @@ io.on('connection', function(socket){
     });
     //ATEM sockets
     socket.on('cut',function (msg) {
-        atem.cutTransition(me);
+        atem.cutTransition(msg);
         console.log("cut");
     });
     socket.on('auto',function (msg) {
-        atem.autoTransition(me);
+        atem.autoTransition(msg);
         console.log("auto");
     });
     socket.on('changePreview',function (msg) {
-        atem.changePreviewInput(msg,me);
+        atem.changePreviewInput(msg.channel,msg.me);
         console.log("Preview chaged to: " + msg);
     });
     socket.on('changeProgram',function (msg) {
-        atem.changeProgramInput(msg,me);
+        atem.changeProgramInput(msg.channel,msg.me);
         console.log("Program changed to: " + msg);
     });
     socket.on('ftb',function (msg) {
-        atem.fadeToBlack(me);
+        atem.fadeToBlack(msg);
         console.log("fade to black");
     });
     socket.on('ds1',function(msg){
@@ -90,23 +89,19 @@ io.on('connection', function(socket){
     });
     socket.on('previewTrans',function(msg){
         if(atem.state.video.ME[me].transitionPreview){
-            atem.changeTransitionPreview(0,me)
+            atem.changeTransitionPreview(0,msg)
         }else{
-            atem.changeTransitionPreview(1,me);
+            atem.changeTransitionPreview(1,msg);
         }
         console.log("Preview Transition");
     });
     socket.on('transType',function(msg){
-        atem.changeTransitionType(msg,me);
+        atem.changeTransitionType(msg.type,msg.me);
         console.log("Preview Transition");
     });
     socket.on('changeAux',function(msg){
        atem.changeAuxInput(msg.aux,msg.input);
        console.log("Change Aux " + msg.aux + " to input " + msg.input);
-    });
-    socket.on('ME',function(msg){
-        me = msg;
-        console.log("Set to: M/E " + (me + 1));
     });
 });
 //ATEM listeners
