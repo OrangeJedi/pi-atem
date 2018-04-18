@@ -100,6 +100,10 @@ io.on('connection', function(socket){
         atem.changeTransitionType(msg,me);
         console.log("Preview Transition");
     });
+    socket.on('changeAux',function(msg){
+       atem.changeAuxInput(msg.aux,msg.input);
+       console.log("Change Aux " + msg.aux + " to input " + msg.input);
+    });
     socket.on('ME',function(msg){
         me = msg;
         console.log("Set to: M/E " + (me + 1));

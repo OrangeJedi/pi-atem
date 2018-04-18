@@ -18,6 +18,21 @@ function resetButtons(state){
     setButtons();
     color(state);
 }
+function createButtons(busName,msg){
+    var b = busName[0].toUpperCase();
+    for(var i = 1;i < busName.length;i++){
+        b += busName[i];
+    }
+    var txt = "<table class='bus'><tr>";
+    for(i = 0; i < inputs.length;i++){
+        txt += "<td class='" + busName + "TD TDbutton' id='" + busName + "TD_" + inputs[i] + "'><button class='" + busName + "Button Button' id='" + busName + "Button_" + inputs[i] + "' onclick='set" + b + "(" + inputs[i] + ")'>" + msg.channels[inputs[i]].label + "</button></td>";
+    }
+    txt += "</tr></table>";
+    return txt;
+}
+function setButtons(){
+    $('table').find('button').css( "height", $('table.bus').find('button').width() );
+}
 function setPreview(channel){
     socket.emit('changePreview',channel);
 }
@@ -33,24 +48,9 @@ function cut(){
 function ftb(){
     socket.emit('ftb');
 }
-function createButtons(busName,msg){
-    var b = busName[0].toUpperCase();
-    for(var i = 1;i < busName.length;i++){
-        b += busName[i];
-    }
-    var txt = "<table class='bus'><tr>";
-    for(i = 0; i < inputs.length;i++){
-        txt += "<td class='" + busName + "TD TDbutton' id='" + busName + "TD_" + inputs[i] + "'><button class='" + busName + "Button Button' id='" + busName + "Button_" + inputs[i] + "' onclick='set" + b + "(" + inputs[i] + ")'>" + msg.channels[inputs[i]].label + "</button></td>";
-    }
-    txt += "</tr></table>";
-    return txt;
-}
 function color(state){
     $('#programButton_' + state.video.ME[0].programInput).addClass('red');
     $('#previewButton_' + state.video.ME[0].previewInput).addClass('green');
-}
-function setButtons(){
-    $('table').find('button').css( "height", $('table.bus').find('button').width() );
 }
 function meChange(){
     ME = $('#MEnum').val();

@@ -1,0 +1,22 @@
+.Button{
+    width: 100%;
+    height: 200px;
+    border: 1px black solid;
+    background-color: white;
+}
+.bus{
+    width: 95%;
+    background-color: darkgrey;
+}
+.TDbutton{
+    width: 6%;
+}
+.green{
+    background-color: green;
+}
+.red{
+    background-color: red;
+}
+.yellow{
+    background-color: yellow;
+}
